@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
+import { GetDataService } from '../../serviecs/getData/get-data.service';
 
-interface CategoriesResponse{
-  data : any[] ,
-}
+
 @Component({
   selector: 'app-categories',
   imports: [],
@@ -12,19 +10,10 @@ interface CategoriesResponse{
 })
 export class Categories {
 
-  http = inject(HttpClient) ;
+private dataService =  inject(GetDataService) ;
   categories = signal<any[]>([])
   ngOnInit(){
-    const url = `https://ecommerce.routemisr.com/api/v1/categories` ;
-    return this.http.get<CategoriesResponse>(url).subscribe({
-      next : (res)=>{
-        console.log(res);
-        this.categories.set(res.data) ;
-      } ,
-      error :(err)=>{
-        console.log(`ERROR : ${err}`);
-        
-      }
-    })
+    // DO NOT use "new GetDataService()"
+     this.dataService.getDataFromApi(`categories` , this.categories ) ;
   }
 }
