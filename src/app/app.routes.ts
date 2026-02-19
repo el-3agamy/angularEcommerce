@@ -3,6 +3,7 @@ import { Products } from './Components/products/products';
 import { Home } from './Components/home/home';
 import { Brands } from './Components/brands/brands';
 import { Product } from './Components/product/product';
+import { Categories } from './Components/categories/categories';
 
 export const routes: Routes = [
     {
@@ -28,7 +29,11 @@ export const routes: Routes = [
         path: "brands",
         component: Brands
     },
-
+    {
+        path :"categories" ,
+        component : Categories
+    }
+    ,
     {
         path:"product" ,
         component : Product ,
