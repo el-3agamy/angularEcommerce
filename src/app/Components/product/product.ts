@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
-export class Product {
+export class Product implements OnInit{
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
 

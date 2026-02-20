@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { GetDataService } from '../../serviecs/getData/get-data.service';
 
 
@@ -8,7 +8,7 @@ import { GetDataService } from '../../serviecs/getData/get-data.service';
   templateUrl: './categories.html',
   styleUrl: './categories.css',
 })
-export class Categories {
+export class Categories implements OnInit{
 
 private dataService =  inject(GetDataService) ;
   categories = signal<any[]>([])

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { GetDataService } from '../../serviecs/getData/get-data.service';
 import { Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
@@ -9,7 +9,7 @@ import { SlicePipe } from '@angular/common';
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
-export class Products {
+export class Products  implements OnInit{
   private router = inject(Router);
   private dataService = inject(GetDataService);
   products = signal<any[]>([]);
