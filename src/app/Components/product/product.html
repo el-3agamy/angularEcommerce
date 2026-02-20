@@ -1,1 +1,171 @@
-<p>product works!</p>
+@if (isLoading()) {
+<div class="loading-container">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading product details...</span>
+</div>
+} @else if (productDetails()) {
+<div class="product-details-page">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <a href="/home"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right separator"></i>
+            <a href="/products">Products</a>
+            <i class="fa-solid fa-chevron-right separator"></i>
+            <span class="current">{{ productDetails().title }}</span>
+        </nav>
+
+        <div class="row g-5">
+            <!-- Image Gallery -->
+            <div class="col-lg-5">
+                <div class="gallery-wrapper">
+                    <div class="main-image-container">
+                        <img [src]="selectedImage()" [alt]="productDetails().title" class="main-image" />
+                        @if (productDetails().sold > 5000) {
+                        <span class="detail-badge hot"><i class="fa-solid fa-fire"></i> Best Seller</span>
+                        }
+                    </div>
+                    <div class="thumbnail-list">
+                        <button class="thumbnail-btn" [class.active]="selectedImage() === productDetails().imageCover"
+                            (click)="selectImage(productDetails().imageCover)">
+                            <img [src]="productDetails().imageCover" alt="Cover" />
+                        </button>
+                        @for (img of productDetails().images; track $index) {
+                        <button class="thumbnail-btn" [class.active]="selectedImage() === img"
+                            (click)="selectImage(img)">
+                            <img [src]="img" [alt]="'Image ' + ($index + 1)" />
+                        </button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="col-lg-7">
+                <div class="product-detail-info">
+                    <!-- Brand -->
+                    <div class="brand-info">
+                        <img [src]="productDetails().brand?.image" [alt]="productDetails().brand?.name"
+                            class="brand-logo" />
+                        <span class="brand-name-link">{{ productDetails().brand?.name }}</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="detail-title">{{ productDetails().title }}</h1>
+
+                    <!-- Rating -->
+                    <div class="detail-rating">
+                        <div class="star-rating star-rating-lg">
+                            @for (star of getStars(productDetails().ratingsAverage); track star) {
+                            @if (star <= productDetails().ratingsAverage) { <i class="fa-solid fa-star filled"></i>
+                                } @else {
+                                <i class="fa-solid fa-star"></i>
+                                }
+                                }
+                        </div>
+                        <span class="rating-value">{{ productDetails().ratingsAverage }}</span>
+                        <span class="rating-count-detail">({{ productDetails().ratingsQuantity }} reviews)</span>
+                        <span class="sold-count"><i class="fa-solid fa-bag-shopping"></i> {{ productDetails().sold }}
+                            sold</span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="detail-price-box">
+                        <span class="detail-price">{{ productDetails().price }} EGP</span>
+                    </div>
+
+                    <!-- Category & Subcategory -->
+                    <div class="detail-tags">
+                        <span class="detail-tag">
+                            <i class="fa-solid fa-folder"></i> {{ productDetails().category?.name }}
+                        </span>
+                        @for (sub of productDetails().subcategory; track sub._id) {
+                        <span class="detail-tag">
+                            <i class="fa-solid fa-tag"></i> {{ sub.name }}
+                        </span>
+                        }
+                    </div>
+
+                    <!-- Description -->
+                    <div class="detail-description">
+                        <h6>Description</h6>
+                        <p>{{ productDetails().description }}</p>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="availability-info">
+                        <div class="avail-item">
+                            <i class="fa-solid fa-box"></i>
+                            <div>
+                                <span class="avail-label">Availability</span>
+                                <span class="avail-value in-stock">
+                                    @if (productDetails().quantity > 0) {
+                                    In Stock ({{ productDetails().quantity }} units)
+                                    } @else {
+                                    Out of Stock
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="avail-item">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <div>
+                                <span class="avail-label">Delivery</span>
+                                <span class="avail-value">Free shipping</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="detail-actions">
+                        <button class="btn-add-cart">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        </button>
+                        <button class="btn-wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        @if (productDetails().reviews && productDetails().reviews.length > 0) {
+        <section class="reviews-section">
+            <div class="section-header">
+                <h2>Customer Reviews</h2>
+                <p>What our customers are saying</p>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="reviews-list">
+                @for (review of productDetails().reviews; track review._id) {
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                {{ review.user?.name?.charAt(0) }}
+                            </div>
+                            <div>
+                                <h6 class="reviewer-name">{{ review.user?.name }}</h6>
+                                <span class="review-date">{{ review.createdAt | date:'mediumDate' }}</span>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            @for (star of getStars(review.rating); track star) {
+                            @if (star <= review.rating) { <i class="fa-solid fa-star filled"></i>
+                                } @else {
+                                <i class="fa-solid fa-star"></i>
+                                }
+                                }
+                        </div>
+                    </div>
+                    <p class="review-text">{{ review.review }}</p>
+                </div>
+                }
+            </div>
+        </section>
+        }
+    </div>
+</div>
+}

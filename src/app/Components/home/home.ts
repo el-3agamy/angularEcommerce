@@ -1,27 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
-import { ProductCard } from "../../Shared/product-card/product-card";
 import { GetDataService } from '../../serviecs/getData/get-data.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCard],
+  imports: [RouterLink, SlicePipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home{
+export class Home {
+  private router = inject(Router);
+  private dataService = inject(GetDataService);
+  products = signal<any[]>([]);
 
-  private router = inject(Router)
-  private dataService = inject(GetDataService) ;
-  products  = signal<any[]>([]) ;
+  ngOnInit() {
+    this.dataService.getDataFromApi('products', this.products);
+  }
 
-
-
-  ngOnInit(){
-    this.dataService.getDataFromApi(`products` , this.products)
-  } ;
-
-  navigateToProductDetails(productId : string){
-    this.router.navigateByUrl(`products/${productId}`)
+  navigateToProductDetails(productId: string) {
+    this.router.navigateByUrl(`products/${productId}`);
   }
 }

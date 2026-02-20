@@ -1,23 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
-
-  router =new Router()
-  navigateToHomePage(){
-    this.router.navigateByUrl(``)
-  } ;
-  navigateToBrandsPage(){
-    this.router.navigateByUrl(`brands`)
-  } ;
-  navigateToCategoriesPage(){
-    this.router.navigateByUrl(`categories`)
-  } ;
- 
-}
+export class Navbar { }

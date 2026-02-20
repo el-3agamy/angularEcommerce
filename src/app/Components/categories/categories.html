@@ -1,21 +1,27 @@
-<section class="container">
-    <div class="row">
-        
-        @for(category of categories() ; track $index){
-        <div class="card col-4">
-            <img src="{{category.image}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{category.name}}</h5>
-               
-            </div>
-        </div>
-    }@empty {
-        <div class="d-flex justify-content-center align-items-center text-success vh-100 ">
-            <p>
-                Loading ....
-            </p>
-        </div>
-    }
+<div class="categories-page">
+    <div class="page-header">
+        <h1><i class="fa-solid fa-layer-group"></i> Categories</h1>
+        <p>Browse products by category</p>
     </div>
 
-</section>
+    <section class="container categories-grid-section">
+        <div class="row g-4">
+            @for (category of categories(); track $index) {
+            <div class="col-6 col-md-4 col-lg-3 fade-in-up">
+                <div class="category-card">
+                    <img [src]="category.image" [alt]="category.name" class="category-image" />
+                    <div class="category-overlay">
+                        <h5 class="category-name">{{ category.name }}</h5>
+                        <span class="category-cta">Shop Now <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+            } @empty {
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Loading categories...</span>
+            </div>
+            }
+        </div>
+    </section>
+</div>

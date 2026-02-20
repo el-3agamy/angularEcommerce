@@ -1,35 +1,44 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
-interface IProductDetails{
-  data : any[] ;
-}
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
 export class Product {
+  private http = inject(HttpClient);
+  private route = inject(ActivatedRoute);
 
-  private http = inject(HttpClient) ;
-  private productId = inject(Router) ;
-  public productDetails = signal<any[]>([]) ;
+  productDetails = signal<any>(null);
+  selectedImage = signal<string>('');
+  isLoading = signal<boolean>(true);
 
-  ngOnInit(productId = this.productId.url){
-    console.log(productId); 
-    const url = `https://ecommerce.routemisr.com/api/v1${productId}` ;
-    return this.http.get<IProductDetails>(url).subscribe({
-      next:(res)=>{
-        this.productDetails.set(res.data) ;
-    
-      } ,
+  ngOnInit() {
+    const productId = this.route.snapshot.paramMap.get('productId');
+    const url = `https://ecommerce.routemisr.com/api/v1/products/${productId}`;
 
-      error :(err)=>{
+    this.http.get<any>(url).subscribe({
+      next: (res) => {
+        this.productDetails.set(res.data);
+        this.selectedImage.set(res.data.imageCover);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
         console.log(err);
-        
-      }
-    })
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  selectImage(imageUrl: string) {
+    this.selectedImage.set(imageUrl);
+  }
+
+  getStars(rating: number): number[] {
+    return Array.from({ length: 5 }, (_, i) => i + 1);
   }
 }

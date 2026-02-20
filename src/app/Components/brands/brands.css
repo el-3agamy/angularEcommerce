@@ -1,0 +1,62 @@
+/* ============================================
+   BRANDS PAGE STYLES
+   ============================================ */
+
+.brands-page {
+    margin-top: 62px;
+}
+
+.brands-grid-section {
+    padding: 2rem 0 4rem;
+}
+
+.brand-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-base);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.brand-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary);
+}
+
+.brand-image-wrapper {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--bg-body);
+    padding: 1rem;
+    transition: all var(--transition-base);
+}
+
+.brand-card:hover .brand-image-wrapper {
+    background: var(--primary-light);
+    transform: scale(1.05);
+}
+
+.brand-image {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}

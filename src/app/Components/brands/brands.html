@@ -1,21 +1,26 @@
-<section class="container">
-    <div class="row">
-        
-        @for(brand of brands() ; track $index){
-        <div class="card col-4" >
-            <img src="{{brand.image}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{brand.name}}</h5>
-               
-            </div>
-        </div>
-    }@empty {
-        <div class="d-flex justify-content-center align-items-center text-success vh-100 ">
-            <p>
-                Loading ....
-            </p>
-        </div>
-    }
+<div class="brands-page">
+    <div class="page-header">
+        <h1><i class="fa-solid fa-tags"></i> Our Brands</h1>
+        <p>Top brands you know and love</p>
     </div>
 
-</section>
+    <section class="container brands-grid-section">
+        <div class="row g-4">
+            @for (brand of brands(); track $index) {
+            <div class="col-6 col-md-4 col-lg-3 fade-in-up">
+                <div class="brand-card">
+                    <div class="brand-image-wrapper">
+                        <img [src]="brand.image" [alt]="brand.name" class="brand-image" />
+                    </div>
+                    <h5 class="brand-name">{{ brand.name }}</h5>
+                </div>
+            </div>
+            } @empty {
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Loading brands...</span>
+            </div>
+            }
+        </div>
+    </section>
+</div>

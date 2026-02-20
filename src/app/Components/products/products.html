@@ -1,1 +1,59 @@
-<app-product-card></app-product-card>
+<div class="products-page">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="fa-solid fa-box-open"></i> All Products</h1>
+        <p>Explore our full collection of premium products</p>
+    </div>
+
+    <section class="container products-grid-section">
+        <div class="row g-4">
+            @for (product of products(); track product.id) {
+            <div class="col-6 col-md-4 col-lg-3 fade-in-up">
+                <div class="product-card" (click)="navigateToProductDetails(product.id)">
+                    <div class="product-image-wrapper">
+                        <img [src]="product.imageCover" [alt]="product.title" class="product-image" />
+                        <div class="product-overlay">
+                            <button class="overlay-btn" title="Add to Wishlist">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <button class="overlay-btn" title="Quick View">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        @if (product.sold > 5000) {
+                        <span class="product-badge hot">Hot</span>
+                        }
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">{{ product.category?.name }}</span>
+                        <h3 class="product-title">{{ product.title | slice:0:40 }}{{ product.title.length > 40 ? '...' :
+                            '' }}</h3>
+                        <div class="product-rating">
+                            <div class="star-rating">
+                                @for (star of [1,2,3,4,5]; track star) {
+                                @if (star <= product.ratingsAverage) { <i class="fa-solid fa-star filled"></i>
+                                    } @else {
+                                    <i class="fa-solid fa-star"></i>
+                                    }
+                                    }
+                            </div>
+                            <span class="rating-count">({{ product.ratingsQuantity }})</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">{{ product.price }} EGP</span>
+                            <button class="add-cart-btn" title="Add to Cart">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            } @empty {
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Loading products...</span>
+            </div>
+            }
+        </div>
+    </section>
+</div>

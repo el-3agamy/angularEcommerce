@@ -1,28 +1,108 @@
-<main>
-    <section>
-        <!-- <app-product-card></app-product-card> -->
-
-        <section class="container">
-            <div class="row">
-                @for (product of products() ; track $index){
-                <div class="col-12  col-md-6 col-lg-3 card" (click)="navigateToProductDetails(product.id)" >
-                    <img src="{{product.imageCover}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card’s
-                            content.</p>
-                        <!-- <a (click)="navigateToProductDetails()" class="btn btn-primary">See Product Details.</a> -->
+<main class="home-page">
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <span class="hero-badge">🔥 Trending Now</span>
+                    <h1 class="hero-title">Shop the Latest <span>Trends</span></h1>
+                    <p class="hero-subtitle">
+                        Discover our curated collection of premium products from top brands worldwide. Free shipping on
+                        orders over $50.
+                    </p>
+                    <div class="hero-actions">
+                        <a routerLink="/products" class="btn-primary-custom btn-lg">
+                            <i class="fa-solid fa-bag-shopping"></i> Shop Now
+                        </a>
+                        <a routerLink="/categories" class="btn-outline-custom btn-lg">
+                            Browse Categories <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <strong>200+</strong>
+                            <span>Products</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <strong>50+</strong>
+                            <span>Brands</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <strong>10K+</strong>
+                            <span>Happy Customers</span>
+                        </div>
                     </div>
                 </div>
-                }@empty {
-                    <div class="d-flex justify-content-center align-items-center w-100 vh-100 text-success">
-                        Loading...
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-shape"></div>
+                        <i class="fa-solid fa-bag-shopping hero-icon-main"></i>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p>Handpicked products just for you</p>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="row g-4">
+                @for (product of products(); track product.id) {
+                <div class="col-6 col-md-4 col-lg-3 fade-in-up">
+                    <div class="product-card" (click)="navigateToProductDetails(product.id)">
+                        <div class="product-image-wrapper">
+                            <img [src]="product.imageCover" [alt]="product.title" class="product-image" />
+                            <div class="product-overlay">
+                                <button class="overlay-btn" title="Add to Wishlist">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                                <button class="overlay-btn" title="Quick View">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            @if (product.sold > 5000) {
+                            <span class="product-badge hot">Hot</span>
+                            }
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">{{ product.category?.name }}</span>
+                            <h3 class="product-title">{{ product.title | slice:0:40 }}{{ product.title.length > 40 ?
+                                '...' : '' }}</h3>
+                            <div class="product-rating">
+                                <div class="star-rating">
+                                    @for (star of [1,2,3,4,5]; track star) {
+                                    @if (star <= product.ratingsAverage) { <i class="fa-solid fa-star filled"></i>
+                                        } @else {
+                                        <i class="fa-solid fa-star"></i>
+                                        }
+                                        }
+                                </div>
+                                <span class="rating-count">({{ product.ratingsQuantity }})</span>
+                            </div>
+                            <div class="product-footer">
+                                <span class="product-price">{{ product.price }} EGP</span>
+                                <button class="add-cart-btn" title="Add to Cart">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                } @empty {
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <span class="loading-text">Loading products...</span>
+                </div>
                 }
             </div>
-        </section>
-
-
+        </div>
     </section>
 </main>
