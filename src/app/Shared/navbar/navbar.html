@@ -35,14 +35,25 @@
       </ul>
 
       <div class="nav-actions">
-        <button class="nav-action-btn" title="Wishlist">
+        @if(authService.token()){
+          <button class="nav-action-btn" title="Wishlist">
           <i class="fa-regular fa-heart"></i>
           <span class="action-badge">0</span>
         </button>
-        <button class="nav-action-btn" title="Cart">
+        <button class="nav-action-btn" title="Cart" (click)="navigateToCart()">
           <i class="fa-solid fa-bag-shopping"></i>
-          <span class="action-badge">0</span>
+          <span class="action-badge">{{cartService.productsCount()}}</span>
         </button>
+        }
+        @if(!authService.token()){
+          <button class="nav-action-btn" title="Signin" (click)="navigateToSiginPage()">
+        <i class="fa-solid fa-user-lock"></i>
+        </button>
+        }@else{
+          <button class="nav-action-btn" title="Log Out" (click)="authService.logOutFn()">
+          <i class="fa-solid fa-sign-out"></i>
+        </button>
+        }
       </div>
     </div>
   </div>

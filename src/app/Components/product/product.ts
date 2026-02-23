@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { CartService } from '../../serviecs/cartService/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -10,6 +11,8 @@ import { DatePipe } from '@angular/common';
   styleUrl: './product.css',
 })
 export class Product implements OnInit{
+
+
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
 
@@ -17,9 +20,12 @@ export class Product implements OnInit{
   selectedImage = signal<string>('');
   isLoading = signal<boolean>(true);
 
+  productId = signal<any>(0) ;
+
+  cartService = inject(CartService) ;
   ngOnInit() {
-    const productId = this.route.snapshot.paramMap.get('productId');
-    const url = `https://ecommerce.routemisr.com/api/v1/products/${productId}`;
+   this.productId.set(this.route.snapshot.paramMap.get('productId')) ;
+    const url = `https://ecommerce.routemisr.com/api/v1/products/${this.productId()}`;
 
     this.http.get<any>(url).subscribe({
       next: (res) => {
@@ -41,4 +47,10 @@ export class Product implements OnInit{
   getStars(rating: number): number[] {
     return Array.from({ length: 5 }, (_, i) => i + 1);
   }
+
+  /////////////////////////////////////////////////
+
+
+
+ 
 }

@@ -118,8 +118,8 @@
 
                     <!-- Actions -->
                     <div class="detail-actions">
-                        <button class="btn-add-cart">
-                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        <button class="btn-add-cart" (click)="cartService.addProductToCart(productId())">
+                            <i class="fa-solid fa-cart-plus" ></i> Add to Cart
                         </button>
                         <button class="btn-wishlist">
                             <i class="fa-regular fa-heart"></i>

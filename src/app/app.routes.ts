@@ -4,6 +4,9 @@ import { Home } from './Components/home/home';
 import { Brands } from './Components/brands/brands';
 import { Product } from './Components/product/product';
 import { Categories } from './Components/categories/categories';
+import { Cart } from './Components/cart/cart';
+import { Register } from './Components/register/register';
+import { Login } from './Components/login/login';
 
 export const routes: Routes = [
     {
@@ -38,5 +41,20 @@ export const routes: Routes = [
         path:"products/:productId" ,
         component : Product ,
         title : "Product Details"
+    } ,
+    {
+        path : "cart" ,
+        component : Cart ,
+        title : "My Cart"
+    } ,
+    {
+        path : "signup" ,
+        component : Register ,
+        title : "Register"
+    } ,
+    {
+        path : "signin" ,
+        component : Login ,
+        title : "Login"
     }
 ];
