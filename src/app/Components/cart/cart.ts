@@ -1,20 +1,32 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CartService } from '../../serviecs/cartService/cart.service';
+import { Component, inject, OnInit } from '@angular/core';
+import { CartService } from '../../services/cartService/cart.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  imports: [],
+  standalone: true,
+  imports: [CurrencyPipe],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
-  
 })
 export class Cart implements OnInit {
+  cartService = inject(CartService);
 
-    // productsCount : number = 0 ;
-    productsCount = inject(CartService) ;
-    caetItems = signal<any>([])
+  ngOnInit(): void {
+    this.cartService.getUserCart().subscribe({
+      error: (err) => console.error('Error fetching cart:', err)
+    });
+  }
 
-     ngOnInit(): void {
-        this.caetItems.set(this.productsCount.getUserCart());
-     }
+  updateQuantity(productId: string, count: number): void {
+    if (count <= 0) {
+      this.removeItem(productId);
+      return;
+    }
+    this.cartService.updateProductQuantity(productId, count).subscribe();
+  }
+
+  removeItem(productId: string): void {
+    this.cartService.removeProductFromCart(productId).subscribe();
+  }
 }

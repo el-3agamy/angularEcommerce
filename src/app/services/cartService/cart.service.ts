@@ -19,7 +19,7 @@
 //   //   const url = `https://ecommerce.routemisr.com/api/v1/cart` ;
 //   //   const productId = this.router.url.trim().split('/')[2] ;
 //   //   console.log(productId);
-    
+
 //   //   this.http.post<any>(url , productId  , {
 //   //     headers :{
 //   //         token : this.token ,
@@ -28,22 +28,22 @@
 //   //   // this.productsCount.set(this.productsCount++)
 //   //   this.productsCount.update(count=>count+1)
 //   //   console.log(this.productsCount());
-    
+
 //   // } ;
 
-  
+
 //   addProductToCart(){
 //     // const productId = this.route.snapshot.paramMap.get(`productId`) as string ;
 //     const productId = this.router.url.trim().split('/')[2] ;
 //     console.log(productId);
-    
+
 //     const url = `https://ecommerce.routemisr.com/api/v1/cart` ;
 //     // const body = new HttpHeaders({
 //     //       productId ,
 
 //     // }) ;
 //     // console.log(body);
-    
+
 
 //     this.http.post<any>(url , {
 //       productId
@@ -56,12 +56,12 @@
 //         console.log(val);
 //         this.productsCount.update(count=>count+1) ;
 //         console.log(this.productsCount());
-        
-        
+
+
 //       } ,
 //       error : (err)=>{
 //         console.log(err);
-        
+
 //       }
 //     })
 //   }
@@ -82,11 +82,11 @@
 //       next :(val)=>{
 //         console.log(val);
 
-        
+
 //       } ,
 //       error :(err)=>{
 //           console.log(err);
-          
+
 //       }
 //     })
 //   } ;
@@ -104,7 +104,7 @@
 //       next : (res)=>{
 //         console.log(res);
 //         return res ;
-        
+
 //       }
 //     })
 //   }
@@ -115,7 +115,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -124,9 +124,13 @@ export class CartService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  // Use a signal to track the UI count
+  // Signals for cart state
   productsCount = signal<number>(0);
-  
+  cartItems = signal<any[]>([]);
+  totalCartPrice = signal<number>(0);
+  cartId = signal<string>('');
+
+  quantityOfProductsInCart = signal<any>(0)
   // Base API URL to avoid repetition
   private baseUrl = `https://ecommerce.routemisr.com/api/v1/cart`;
 
@@ -137,29 +141,56 @@ export class CartService {
 
   // Add Product
   addProductToCart(productId: string) {
-    // Note: Passing { productId } as an object
     return this.http.post<any>(this.baseUrl, { productId }, {
       headers: { token: this.token }
-    }).subscribe({
-      next: (res) => {
-        this.productsCount.set(res.numOfCartItems); // Sync with actual API count
+    }).pipe(
+      tap((res: any) => {
+        this.productsCount.set(res.numOfCartItems);
+        this.cartItems.set(res.data.products);
+        this.totalCartPrice.set(res.data.totalCartPrice);
+        this.cartId.set(res.data._id);
         console.log('Added to cart:', res);
-      },
-      error: (err) => console.error(err)
-    });
+      })
+    );
   }
 
   // Remove Product
   removeProductFromCart(productId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${productId}`, {
       headers: { token: this.token }
-    });
+    }).pipe(
+      tap((res: any) => {
+        this.productsCount.set(res.numOfCartItems);
+        this.cartItems.set(res.data.products);
+        this.totalCartPrice.set(res.data.totalCartPrice);
+      })
+    );
   }
 
-  // Get User Cart (Returns Observable so component can display data)
-  getUserCart(): Observable<any> {
-    return this.http.get(this.baseUrl, {
+  // Update Product Quantity
+  updateProductQuantity(productId: string, count: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${productId}`, { count }, {
       headers: { token: this.token }
-    });
+    }).pipe(
+      tap((res: any) => {
+        this.cartItems.set(res.data.products);
+        this.totalCartPrice.set(res.data.totalCartPrice);
+        this.productsCount.set(res.numOfCartItems);
+      })
+    );
+  }
+
+  // Get User Cart
+  getUserCart(): Observable<any> {
+    return this.http.get<any>(this.baseUrl, {
+      headers: { token: this.token }
+    }).pipe(
+      tap((res: any) => {
+        this.productsCount.set(res.numOfCartItems);
+        this.cartItems.set(res.data.products);
+        this.totalCartPrice.set(res.data.totalCartPrice);
+        this.cartId.set(res.data._id);
+      })
+    );
   }
 }

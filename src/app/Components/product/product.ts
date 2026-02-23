@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { CartService } from '../../serviecs/cartService/cart.service';
+import { CartService } from '../../services/cartService/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -10,7 +10,7 @@ import { CartService } from '../../serviecs/cartService/cart.service';
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
-export class Product implements OnInit{
+export class Product implements OnInit {
 
 
   private http = inject(HttpClient);
@@ -20,11 +20,11 @@ export class Product implements OnInit{
   selectedImage = signal<string>('');
   isLoading = signal<boolean>(true);
 
-  productId = signal<any>(0) ;
+  productId = signal<any>(0);
 
-  cartService = inject(CartService) ;
+  cartService = inject(CartService);
   ngOnInit() {
-   this.productId.set(this.route.snapshot.paramMap.get('productId')) ;
+    this.productId.set(this.route.snapshot.paramMap.get('productId'));
     const url = `https://ecommerce.routemisr.com/api/v1/products/${this.productId()}`;
 
     this.http.get<any>(url).subscribe({
@@ -52,5 +52,5 @@ export class Product implements OnInit{
 
 
 
- 
+
 }

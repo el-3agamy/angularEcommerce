@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { GetDataService } from '../../serviecs/getData/get-data.service';
+import { GetDataService } from '../../services/getData/get-data.service';
+import { CartService } from '../../services/cartService/cart.service';
 
 
 @Component({
@@ -8,12 +9,12 @@ import { GetDataService } from '../../serviecs/getData/get-data.service';
   templateUrl: './categories.html',
   styleUrl: './categories.css',
 })
-export class Categories implements OnInit{
+export class Categories implements OnInit {
 
-private dataService =  inject(GetDataService) ;
+  private dataService = inject(GetDataService);
   categories = signal<any[]>([])
-  ngOnInit(){
+  ngOnInit() {
     // DO NOT use "new GetDataService()"
-     this.dataService.getDataFromApi(`categories` , this.categories ) ;
+    this.dataService.getDataFromApi(`categories`, this.categories);
   }
 }

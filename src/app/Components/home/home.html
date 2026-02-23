@@ -89,7 +89,8 @@
                             </div>
                             <div class="product-footer">
                                 <span class="product-price">{{ product.price }} EGP</span>
-                                <button class="add-cart-btn" title="Add to Cart">
+                                <button class="add-cart-btn" title="Add to Cart"
+                                    (click)="addToCart(product.id); $event.stopPropagation()">
                                     <i class="fa-solid fa-cart-plus"></i>
                                 </button>
                             </div>

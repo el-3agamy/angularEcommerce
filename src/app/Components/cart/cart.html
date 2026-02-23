@@ -1,4 +1,79 @@
-<div>
-    <p>cart works!</p>
-<span>count : {{productsCount.productsCount()}}</span>
+<div class="cart-page">
+    <div class="container">
+        @if (cartService.cartItems().length > 0) {
+        <div class="cart-header">
+            <h1>Shopping Cart ({{ cartService.productsCount() }})</h1>
+            <button class="clear-cart-btn">
+                <i class="fa-regular fa-trash-can"></i> Clear Cart
+            </button>
+        </div>
+
+        <div class="row g-4">
+            <!-- Cart Items List -->
+            <div class="col-lg-8">
+                @for (item of cartService.cartItems(); track item._id) {
+                <div class="cart-item-card">
+                    <div class="item-image-wrapper">
+                        <img [src]="item.product.imageCover" [alt]="item.product.title" class="item-image" />
+                    </div>
+                    <div class="item-details">
+                        <span class="item-category">{{ item.product.category?.name }}</span>
+                        <h3 class="item-title">{{ item.product.title }}</h3>
+                        <div class="item-price">{{ item.price | currency:'EGP ':'code' }}</div>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="qty-btn" (click)="updateQuantity(item.product._id, item.count - 1)"
+                                title="Decrease">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <span class="qty-value">{{ item.count }}</span>
+                            <button class="qty-btn" (click)="updateQuantity(item.product._id, item.count + 1)"
+                                title="Increase">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="remove-btn" (click)="removeItem(item.product._id)">
+                            <i class="fa-regular fa-trash-can"></i> Remove
+                        </button>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- Summary Sidebar -->
+            <div class="col-lg-4">
+                <div class="cart-summary">
+                    <h2 class="summary-title">Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>{{ cartService.totalCartPrice() | currency:'EGP ':'code' }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span class="text-success">Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>{{ 0 | currency:'EGP ':'code' }}</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span class="total-amount">{{ cartService.totalCartPrice() | currency:'EGP ':'code' }}</span>
+                    </div>
+                    <button class="checkout-btn">
+                        Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        } @else {
+        <div class="empty-cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added anything to your cart yet.</p>
+            <a routerLink="/products" class="shop-now-btn">Continue Shopping</a>
+        </div>
+        }
+    </div>
 </div>

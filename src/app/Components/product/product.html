@@ -100,7 +100,7 @@
                                 <span class="avail-label">Availability</span>
                                 <span class="avail-value in-stock">
                                     @if (productDetails().quantity > 0) {
-                                    In Stock ({{ productDetails().quantity }} units)
+                                    In Stock ({{ productDetails().quantity - cartService.quantityOfProductsInCart() }} units)
                                     } @else {
                                     Out of Stock
                                     }

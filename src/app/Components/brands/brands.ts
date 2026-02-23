@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { GetDataService } from '../../serviecs/getData/get-data.service';
+import { GetDataService } from '../../services/getData/get-data.service';
+import { CartService } from '../../services/cartService/cart.service';
 
 
 @Component({
@@ -10,10 +11,10 @@ import { GetDataService } from '../../serviecs/getData/get-data.service';
 })
 export class Brands implements OnInit {
 
-  private dataServiec = inject(GetDataService) ;
-  brands = signal<any[]>([]) ;
-  
-  ngOnInit(){
-    this.dataServiec.getDataFromApi(`brands` , this.brands)
+  private dataServiec = inject(GetDataService);
+  brands = signal<any[]>([]);
+
+  ngOnInit() {
+    this.dataServiec.getDataFromApi(`brands`, this.brands)
   }
 }

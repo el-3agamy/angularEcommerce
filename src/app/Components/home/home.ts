@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { GetDataService } from '../../serviecs/getData/get-data.service';
+import { GetDataService } from '../../services/getData/get-data.service';
 import { Router, RouterLink } from '@angular/router';
 import { SlicePipe } from '@angular/common';
+import { CartService } from '../../services/cartService/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,10 @@ import { SlicePipe } from '@angular/common';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit{
+export class Home implements OnInit {
   private router = inject(Router);
   private dataService = inject(GetDataService);
+  private cartService = inject(CartService);
   products = signal<any[]>([]);
 
   ngOnInit() {
@@ -20,5 +22,9 @@ export class Home implements OnInit{
 
   navigateToProductDetails(productId: string) {
     this.router.navigateByUrl(`products/${productId}`);
+  }
+
+  addToCart(productId: string) {
+    this.cartService.addProductToCart(productId).subscribe();
   }
 }
