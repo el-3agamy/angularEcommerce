@@ -7,6 +7,7 @@ import { Categories } from './Components/categories/categories';
 import { Cart } from './Components/cart/cart';
 import { Register } from './Components/register/register';
 import { Login } from './Components/login/login';
+import { Wishlist } from './Components/wishlist/wishlist';
 
 export const routes: Routes = [
     {
@@ -56,5 +57,10 @@ export const routes: Routes = [
         path : "signin" ,
         component : Login ,
         title : "Login"
+    } ,
+    {
+        path :"wishlist" ,
+        component : Wishlist ,
+        title : "Wishlist"
     }
 ];

@@ -14,6 +14,10 @@ export class Navbar implements OnInit {
   authService = inject(AuthService);
   cartService = inject(CartService);
   router = inject(Router);
+
+  navigateToWishlist(){
+    this.router.navigateByUrl('wishlist') ;
+  };
   navigateToCart() {
     this.router.navigateByUrl('cart')
   };

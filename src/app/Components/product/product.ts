@@ -3,10 +3,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CartService } from '../../services/cartService/cart.service';
+import { Toast } from "../../Shared/toast/toast";
+import { WishlistService } from '../../services/wishlistService/wishlist.service';
 
 @Component({
   selector: 'app-product',
-  imports: [DatePipe],
+  imports: [DatePipe, Toast],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
@@ -23,6 +25,8 @@ export class Product implements OnInit {
   productId = signal<any>(0);
 
   cartService = inject(CartService);
+
+  wishListService = inject(WishlistService) ;
   ngOnInit() {
     this.productId.set(this.route.snapshot.paramMap.get('productId'));
     const url = `https://ecommerce.routemisr.com/api/v1/products/${this.productId()}`;

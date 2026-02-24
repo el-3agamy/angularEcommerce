@@ -36,7 +36,7 @@
 
       <div class="nav-actions">
         @if(authService.token()){
-          <button class="nav-action-btn" title="Wishlist">
+          <button class="nav-action-btn" title="Wishlist" (click)="navigateToWishlist()">
           <i class="fa-regular fa-heart"></i>
           <span class="action-badge">0</span>
         </button>

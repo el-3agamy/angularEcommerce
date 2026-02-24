@@ -1,3 +1,4 @@
+import { ToastService } from './../toast/toast.service';
 // import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 // import { inject, Injectable, signal } from '@angular/core';
 // import { ActivatedRoute, Router } from '@angular/router';
@@ -139,12 +140,15 @@ export class CartService {
     return localStorage.getItem('montagToken') || '';
   }
 
+  // toast : 
+  toastService = inject(ToastService) ;
   // Add Product
   addProductToCart(productId: string) {
     return this.http.post<any>(this.baseUrl, { productId }, {
       headers: { token: this.token }
     }).pipe(
       tap((res: any) => {
+        // this.toastService.displayToast.set(true) ;
         this.productsCount.set(res.numOfCartItems);
         this.cartItems.set(res.data.products);
         this.totalCartPrice.set(res.data.totalCartPrice);
