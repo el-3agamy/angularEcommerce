@@ -17,7 +17,7 @@ export class Wishlist implements OnInit {
   cartService = inject(CartService);
 
   ngOnInit() {
-    this.wishlistService.loadUserWishlist().subscribe();
+    this.wishlistService.loadUserWishlist();
   }
 
   addToCart(productId: string) {
@@ -25,6 +25,6 @@ export class Wishlist implements OnInit {
   }
 
   removeFromWishlist(productId: string) {
-    this.wishlistService.removeItemFromWishList(productId).subscribe();
+    this.wishlistService.removeItemFromWishList(productId);
   }
 }
