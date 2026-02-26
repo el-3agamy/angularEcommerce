@@ -38,7 +38,7 @@
         @if(authService.token()){
           <button class="nav-action-btn" title="Wishlist" (click)="navigateToWishlist()">
           <i class="fa-regular fa-heart"></i>
-          <span class="action-badge">0</span>
+          <span class="action-badge">{{wishlistService.wishlistCount()}}</span>
         </button>
         <button class="nav-action-btn" title="Cart" (click)="navigateToCart()">
           <i class="fa-solid fa-bag-shopping"></i>

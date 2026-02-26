@@ -7,7 +7,7 @@ import { Toast } from "../../Shared/toast/toast";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, SlicePipe, Toast],
+  imports: [RouterLink, SlicePipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

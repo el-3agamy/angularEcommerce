@@ -8,8 +8,10 @@ import { Router } from '@angular/router';
 export class WishlistService {
 
   private http = inject(HttpClient);
-router = inject(Router) ;
+  router = inject(Router);
   wishlistItems = signal<any[]>([]);
+  wishlistCount = signal<number>(0);
+
   loading = signal(false);
 
   private baseUrl = `https://ecommerce.routemisr.com/api/v1/wishlist`;
@@ -28,6 +30,7 @@ router = inject(Router) ;
       headers: this.headers,
     }).subscribe({
       next: (res) => {
+        this.wishlistCount.set(res.count)
         this.wishlistItems.set(res.data);
         this.loading.set(false);
       },
@@ -39,7 +42,7 @@ router = inject(Router) ;
 
   // ✅ Add Item
   addItemToWishList(): void {
-    this.http.post<any>(this.baseUrl, {productId : this.router.url.split('/')[2] }, {
+    this.http.post<any>(this.baseUrl, { productId: this.router.url.split('/')[2] }, {
       headers: this.headers,
     }).subscribe({
       next: () => {
@@ -61,5 +64,7 @@ router = inject(Router) ;
         );
       }
     });
-  }
+  };
+
+
 }
