@@ -1,52 +1,91 @@
 <div class="wishlist-page">
-    <div class="page-header">
-        <div class="container text-center">
-            <h1>My Wishlist</h1>
-            <p>Your favorite items saved in one place</p>
-        </div>
+  <div class="page-header">
+    <div class="container text-center">
+      <h1>My Wishlist</h1>
+      <p>Your favorite items saved in one place</p>
     </div>
+  </div>
 
-    <div class="container py-5">
-        <div *ngIf="wishlistService.wishlistItems().length === 0" class="empty-wishlist text-center py-5 fade-in-up">
-            <div class="empty-icon mb-4">
-                <i class="fa-regular fa-heart"></i>
-            </div>
-            <h3>Your wishlist is empty</h3>
-            <p class="text-secondary mb-4">Looks like you haven't added any items to your wishlist yet.</p>
-            <a routerLink="/home" class="btn-primary-custom">
-                Start Shopping
-            </a>
-        </div>
+  <div class="container py-5">
 
-        <div *ngIf="wishlistService.wishlistItems().length > 0" class="wishlist-grid">
-            <div *ngFor="let product of wishlistService.wishlistItems()" class="product-card fade-in-up">
-                <div class="product-image-wrapper">
-                    <img [src]="product.imageCover" [alt]="product.title" class="product-image">
-                    <div class="product-overlay">
-                        <button (click)="removeFromWishlist(product._id)" class="overlay-btn remove-btn"
-                            title="Remove from wishlist">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <div class="product-category">{{product.category.name}}</div>
-                    <h5 class="product-title">{{product.title | slice:0:25}}{{product.title.length > 25 ? '...' : ''}}
-                    </h5>
-                    <div class="product-rating">
-                        <div class="star-rating">
-                            <i class="fa-solid fa-star filled"></i>
-                            <span class="rating-vlaue">{{product.ratingsAverage}}</span>
-                        </div>
-                    </div>
-                    <div class="product-footer">
-                        <div class="product-price">{{product.price}} EGP</div>
-                        <button (click)="addToCart(product._id)" class="add-cart-btn" title="Add to Cart">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    @if (wishlistService.wishlistItems().length === 0) {
+      <div class="empty-wishlist text-center py-5 fade-in-up">
+        <div class="empty-icon mb-4">
+          <i class="fa-regular fa-heart"></i>
         </div>
-    </div>
+        <h3>Your wishlist is empty</h3>
+        <p class="text-secondary mb-4">
+          Looks like you haven't added any items to your wishlist yet.
+        </p>
+        <a routerLink="/home" class="btn-primary-custom">
+          Start Shopping
+        </a>
+      </div>
+    }
+
+    @if (wishlistService.wishlistItems().length > 0) {
+      <div class="wishlist-grid">
+
+        @for (product of wishlistService.wishlistItems(); track product._id) {
+          <div class="product-card fade-in-up">
+
+            <div class="product-image-wrapper">
+              <img
+                [src]="product.imageCover"
+                [alt]="product.title"
+                class="product-image"
+              />
+
+              <div class="product-overlay">
+                <button
+                  (click)="removeFromWishlist(product._id)"
+                  class="overlay-btn remove-btn"
+                  title="Remove from wishlist"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="product-info">
+              <div class="product-category">
+                {{ product.category.name }}
+              </div>
+
+              <h5 class="product-title">
+                {{ product.title | slice:0:25 }}
+                {{ product.title.length > 25 ? '...' : '' }}
+              </h5>
+
+              <div class="product-rating">
+                <div class="star-rating">
+                  <i class="fa-solid fa-star filled"></i>
+                  <span class="rating-value">
+                    {{ product.ratingsAverage }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="product-footer">
+                <div class="product-price">
+                  {{ product.price }} EGP
+                </div>
+
+                <button
+                  (click)="addToCart(product._id)"
+                  class="add-cart-btn"
+                  title="Add to Cart"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        }
+
+      </div>
+    }
+
+  </div>
 </div>
