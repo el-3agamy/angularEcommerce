@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { inject, Injectable, signal } from '@angular/core';
 export class WishlistService {
 
   private http = inject(HttpClient);
-
+router = inject(Router) ;
   wishlistItems = signal<any[]>([]);
   loading = signal(false);
 
@@ -37,8 +38,8 @@ export class WishlistService {
   }
 
   // ✅ Add Item
-  addItemToWishList(productId: string): void {
-    this.http.post<any>(this.baseUrl, { productId }, {
+  addItemToWishList(): void {
+    this.http.post<any>(this.baseUrl, {productId : this.router.url.split('/')[2] }, {
       headers: this.headers,
     }).subscribe({
       next: () => {
