@@ -7,7 +7,11 @@ import { Router } from '@angular/router';
 export class AuthService {
   token = signal(localStorage.getItem('montagToken') || null)  ;
   router = inject(Router) ;
-
+  
+  isLoggedin(){
+    const token = localStorage.getItem("montagToken") ;
+  return !!token ;
+  }
   logOutFn(){
     localStorage.removeItem('montagToken') ;
     this.token.set(null) ;

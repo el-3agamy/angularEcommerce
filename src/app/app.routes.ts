@@ -8,6 +8,7 @@ import { Cart } from './Components/cart/cart';
 import { Register } from './Components/register/register';
 import { Login } from './Components/login/login';
 import { Wishlist } from './Components/wishlist/wishlist';
+import { authGuard } from './guards/auth/auth.guard';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,7 @@ export const routes: Routes = [
     {
         path : "cart" ,
         component : Cart ,
+        canActivate : [authGuard] ,
         title : "My Cart"
     } ,
     {
@@ -61,6 +63,7 @@ export const routes: Routes = [
     {
         path :"wishlist" ,
         component : Wishlist ,
+        canActivate : [authGuard] ,
         title : "Wishlist"
     }
 ];
