@@ -1,7 +1,10 @@
-.alert-secondary{
+.alert alert-success{
     /* display: none; */
     position: absolute;
     right: 50PX;
     top: 90px;
+
+    width: 120px;
+    height: 90px;
 
 }

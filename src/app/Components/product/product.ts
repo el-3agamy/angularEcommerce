@@ -1,5 +1,6 @@
+import { ToastService } from './../../services/toast/toast.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CartService } from '../../services/cartService/cart.service';
@@ -14,7 +15,6 @@ import { WishlistService } from '../../services/wishlistService/wishlist.service
 })
 export class Product implements OnInit {
 
-
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
 
@@ -27,6 +27,10 @@ export class Product implements OnInit {
   cartService = inject(CartService);
 
   wishListService = inject(WishlistService) ;
+
+  toastService = inject(ToastService) ;
+
+  
   ngOnInit() {
     this.productId.set(this.route.snapshot.paramMap.get('productId'));
     const url = `https://ecommerce.routemisr.com/api/v1/products/${this.productId()}`;
@@ -54,7 +58,13 @@ export class Product implements OnInit {
 
   /////////////////////////////////////////////////
 
-
+addProductToCart(){
+  this.cartService.addProductToCart(this.productId()) ;
+  this.toastService.displayToast.set(true)
+  setTimeout(()=>{
+    this.toastService.displayToast.set(false)
+  } , 1000)
+}
 
 
 }

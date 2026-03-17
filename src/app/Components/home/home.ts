@@ -3,7 +3,6 @@ import { GetDataService } from '../../services/getData/get-data.service';
 import { Router, RouterLink } from '@angular/router';
 import { SlicePipe } from '@angular/common';
 import { CartService } from '../../services/cartService/cart.service';
-import { Toast } from "../../Shared/toast/toast";
 
 @Component({
   selector: 'app-home',

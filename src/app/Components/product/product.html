@@ -1,3 +1,6 @@
+@if(toastService.displayToast()){
+    <app-toast></app-toast>
+}
 @if (isLoading()) {
 <div class="loading-container">
     <div class="loading-spinner"></div>
@@ -121,7 +124,7 @@
 
                     <!-- Actions -->
                     <div class="detail-actions">
-                        <button class="btn-add-cart" (click)="cartService.addProductToCart(productId())">
+                        <button class="btn-add-cart" (click)="addProductToCart()">
                             <i class="fa-solid fa-cart-plus" ></i> Add to Cart
                         </button>
                         <button class="btn-wishlist" (click)="wishListService.addItemToWishList()">

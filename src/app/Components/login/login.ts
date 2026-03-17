@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule], // 2. Add FormsModule here
+  imports: [CommonModule, FormsModule], 
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -20,7 +20,6 @@ export class Login {
   loginData = {
     email: '',
     password: '',
-    // remember: false
   };
 
   handleLogin(form: any) {

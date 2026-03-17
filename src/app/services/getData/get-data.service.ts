@@ -11,10 +11,13 @@ interface ApiResponse {
 export class GetDataService {
 
   private http = inject(HttpClient);
-  getDataFromApi(endPoint: string, data: any) {
-    const url = `https://ecommerce.routemisr.com/api/v1/${endPoint}`;
+  getDataFromApi(endPoint: string, data: any , page : number = 1 , limit : number = 12) {
+    const url = `https://ecommerce.routemisr.com/api/v1/${endPoint}?page=${page}&limit=${limit}`;
     return this.http.get<ApiResponse>(url).subscribe({
+
       next: (res) => {
+        console.log(res);
+        
         data.set(res.data);
       },
       error: (err) => {

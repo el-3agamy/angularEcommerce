@@ -176,3 +176,32 @@
     color: white;
     transform: scale(1.1);
 }
+
+.pagination {
+  gap: 5px;
+}
+
+.page-link {
+  border: none;
+  color: #555;
+  border-radius: 8px !important; /* Rounded squares */
+  transition: all 0.3s ease;
+  padding: 10px 16px;
+  font-weight: 500;
+}
+
+.page-item.active .page-link {
+  background-color: #0aad0a; /* Modern Green */
+  color: white;
+  box-shadow: 0 4px 10px rgba(10, 173, 10, 0.3);
+}
+
+.page-link:hover:not(.active) {
+  background-color: #f0f0f0;
+  color: #0aad0a;
+}
+
+.page-item.disabled .page-link {
+  background-color: transparent;
+  color: #ccc;
+}

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class WishlistService {
 
   private http = inject(HttpClient);
-  router = inject(Router);
+   private router = inject(Router);
   wishlistItems = signal<any[]>([]);
   wishlistCount = signal<number>(0);
 
@@ -22,13 +22,11 @@ export class WishlistService {
     };
   }
 
-  // ✅ Load Wishlist
   loadUserWishlist(): void {
     this.loading.set(true);
 
-    this.http.get<any>(this.baseUrl, {
-      headers: this.headers,
-    }).subscribe({
+    this.http.get<any>(this.baseUrl)
+    .subscribe({
       next: (res) => {
         this.wishlistCount.set(res.count)
         this.wishlistItems.set(res.data);
@@ -40,24 +38,18 @@ export class WishlistService {
     });
   }
 
-  // ✅ Add Item
   addItemToWishList(): void {
-    this.http.post<any>(this.baseUrl, { productId: this.router.url.split('/')[2] }, {
-      headers: this.headers,
-    }).subscribe({
+    this.http.post<any>(this.baseUrl, { productId: this.router.url.split('/')[2] }).subscribe({
       next: () => {
         this.loadUserWishlist(); // refresh automatically
       }
     });
   }
 
-  // ✅ Remove Item
   removeItemFromWishList(productId: string): void {
     const url = `${this.baseUrl}/${productId}`;
 
-    this.http.delete<any>(url, {
-      headers: this.headers,
-    }).subscribe({
+    this.http.delete<any>(url).subscribe({
       next: () => {
         this.wishlistItems.update(items =>
           items.filter(item => item._id !== productId)

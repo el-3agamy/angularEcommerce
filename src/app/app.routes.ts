@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { Products } from './Components/products/products';
-import { Home } from './Components/home/home';
-import { Brands } from './Components/brands/brands';
-import { Product } from './Components/product/product';
-import { Categories } from './Components/categories/categories';
-import { Cart } from './Components/cart/cart';
-import { Register } from './Components/register/register';
-import { Login } from './Components/login/login';
-import { Wishlist } from './Components/wishlist/wishlist';
+
+
+
+
+
+
+
+
 import { authGuard } from './guards/auth/auth.guard';
 
 export const routes: Routes = [
@@ -20,49 +19,50 @@ export const routes: Routes = [
     ,
     {
         path: "home",
-        component: Home,
-        title: "Home"
+        loadComponent: () => import('./Components/home/home').then(m => m.Home),
+        title: "Home" 
 
     }
     ,
     {
         path: "products",
-        component: Products,
+        loadComponent: () => import('./Components/products/products').then(m => m.Products),
         title: "Products"
     },
     {
         path: "brands",
-        component: Brands
+        loadComponent: () => import('./Components/brands/brands').then(m => m.Brands)
     },
     {
         path :"categories" ,
-        component : Categories
+        loadComponent: () => import('./Components/categories/categories').then(m => m.Categories)
     }
     ,
     {
         path:"products/:productId" ,
-        component : Product ,
+        loadComponent: () => import('./Components/product/product').then(m => m.Product) ,
         title : "Product Details"
     } ,
     {
         path : "cart" ,
-        component : Cart ,
+        loadComponent: () => import('./Components/cart/cart').then(m => m.Cart) ,
         canActivate : [authGuard] ,
         title : "My Cart"
     } ,
     {
         path : "signup" ,
-        component : Register ,
-        title : "Register"
+        loadComponent: () => import('./Components/register/register').then(m => m.Register) ,
+        title : "Register" ,
+        
     } ,
     {
         path : "signin" ,
-        component : Login ,
+        loadComponent: () => import('./Components/login/login').then(m => m.Login) ,
         title : "Login"
     } ,
     {
         path :"wishlist" ,
-        component : Wishlist ,
+        loadComponent: () => import('./Components/wishlist/wishlist').then(m => m.Wishlist) ,
         canActivate : [authGuard] ,
         title : "Wishlist"
     }
